@@ -1,7 +1,11 @@
 XHMediaZoom
 ===========
 
-类似instagrm图片、视频等资源的缩放动画View来查看详细内容，根据ImageView的位置进行缩放，并且还有查看语音资源的播放功能，注意：资源文件可是网络的，也是可以是本地的，方便自定义使用
+![image](https://github.com/JackTeam/XHMediaZoom/raw/master/Screenshots/PhotoBlurExample.png)
+![image](https://github.com/JackTeam/XHMediaZoom/raw/master/Screenshots/VideoExample.png)
+![image](https://github.com/JackTeam/XHMediaZoom/raw/master/Screenshots/AudioExample.png)
+
+类似instagrm图片、视频等资源的缩放动画View来查看详细内容，根据ImageView的位置进行缩放，并且还有查看语音资源的播放功能，注意：资源文件可是网络的，也是可以是本地的，方便自定义使用，并且还具有iOS背景毛玻璃效果，可以自定设置是否开启.
 
 
 ##安装
