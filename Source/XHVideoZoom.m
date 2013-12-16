@@ -9,11 +9,12 @@
 #import "XHVideoZoom.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
+#import "XHVideoPlayView.h"
 
 @interface XHVideoZoom () {
-    AVPlayer      *  _player;
-    AVPlayerLayer *  _playerLayer;
 }
+
+@property (nonatomic, strong) XHVideoPlayView *playView;
 
 @end
 
@@ -47,56 +48,40 @@
 {
     if (self.didShowHandler)
         self.didShowHandler();
-    if (![self isFileURL]) {
+    
+    _playView = [[XHVideoPlayView alloc] initWithFrame:self.imageView.bounds];
+    
+    if ([self isFileURL]) {
+        [_playView.player setSmoothLoopItemByStringPath:self.mediaURL.path smoothLoopCount:2];
+    } else {
         [self.imageView addSubview:self.activityIndicatorView];
         [self.activityIndicatorView startAnimating];
+        [_playView.player setSmoothLoopItemByUrl:self.mediaURL smoothLoopCount:2];
     }
     
-    _player = [AVPlayer playerWithURL:self.mediaURL];
+    _playView.player.shouldLoop = YES;
+    _playView.shouldShowPlayButton = NO;
+    [self.imageView addSubview:self.playView];
     
-    __weak typeof(self) weakSelf = self;
-    [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 24) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        [weakSelf _resetActivityIndicatorView];
-    }];
-    
-    _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
-    [_playerLayer setFrame:self.imageView.bounds];
-    [_playerLayer setBackgroundColor:self.imageView.backgroundColor.CGColor];
-    [_playerLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    
-    [self.imageView.layer setNeedsDisplayOnBoundsChange:YES];
-    
-    
-    [self.imageView.layer addSublayer:_playerLayer];
-    
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(itemDidFinishPlaying) name:AVPlayerItemDidPlayToEndTimeNotification object:_player.currentItem];
-    
-    [_player play];
-}
-
-- (void)itemDidFinishPlaying
-{
-    [self pauseVideoAndRemoveLayer];
+    [self.playView play];
 }
 
 - (void)pauseVideoAndRemoveLayer
 {
-    [_player pause];
-    [_playerLayer removeFromSuperlayer];
-    _player = nil;
-    _playerLayer = nil;
+    [self.playView pause];
+    [self.playView removeFromSuperview];
 }
 
 - (void)willHandleSingleTap
 {
     [self pauseVideoAndRemoveLayer];
+    [self _resetActivityIndicatorView];
 }
 
 - (void)deviceOrientationDidChange:(NSNotification *)notification
 {
     [super deviceOrientationDidChange:notification];
-    [_playerLayer setFrame:self.imageView.bounds];
+    [self.playView setFrame:self.imageView.bounds];
 }
 
 @end
