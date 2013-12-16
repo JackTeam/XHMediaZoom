@@ -7,7 +7,7 @@
 //
 
 #import "XHAudioZoom.h"
-#import <AVFoundation/AVFoundation.h>
+#import "XHAudioPlayer.h"
 
 #define IMAGE_MIC_NORMAL  [UIImage imageNamed:@"mic_normal_358x358.png"]
 #define IMAGE_MIC_TALKING [UIImage imageNamed:@"mic_talk_358x358.png"]
@@ -259,13 +259,11 @@
 
 @end
 
-@interface XHAudioZoom () <AVAudioPlayerDelegate> {
-    NSTimer *_timer;
-}
+@interface XHAudioZoom () <XHAudioPlayerDelegate>
 
+@property (nonatomic, strong) XHAudioPlayer *audioPlayer;
 @property (nonatomic, strong) XHAudioHud *xh_audioHud;
 @property (nonatomic, strong) UIView *audioContainerView;
-@property (nonatomic, strong) AVAudioPlayer *player;
 
 @property (nonatomic, assign) BOOL downLoadAudioFinish;
 
@@ -295,8 +293,7 @@
 }
 
 - (void)resetAll {
-    [self resetTimer];
-    [self resetPlayer];
+    [self resetAudioPlayer];
     [self resetAudioHud];
 }
 
@@ -304,10 +301,11 @@
 {
     if (self.didShowHandler)
         self.didShowHandler();
+    
     if ([self isFileURL]) {
         [self.imageView addSubview:self.audioContainerView];
         [self.xh_audioHud setProgress:0.0f];
-        [self playFile:self.mediaURL.path];
+        [self.audioPlayer playFile:self.mediaURL.path];
     } else {
         self.activityIndicatorView.center = CGPointMake(CGRectGetWidth(self.imageView.frame) / 2.0, CGRectGetHeight(self.imageView.frame) / 2.0);
         [self.imageView addSubview:self.activityIndicatorView];
@@ -319,7 +317,7 @@
                 [self.imageView addSubview:self.audioContainerView];
                 [self.xh_audioHud setProgress:0.0f];
                 [self _resetActivityIndicatorView];
-                [self playFileData:audioData];
+                [self.audioPlayer playFileData:audioData];
             });
         });
     }
@@ -342,6 +340,14 @@
 
 #pragma mark - setter / getter
 
+- (XHAudioPlayer *)audioPlayer {
+    if (!_audioPlayer) {
+        _audioPlayer = [[XHAudioPlayer alloc] init];
+        _audioPlayer.delegate = self;
+    }
+    return _audioPlayer;
+}
+
 - (XHAudioHud *)xh_audioHud {
     if (!_xh_audioHud) {
         _xh_audioHud = [[XHAudioHud alloc] initWithFrame:CGRectMake(0, 0, 179, 179)];
@@ -354,48 +360,17 @@
 - (UIView *)audioContainerView {
     if (!_audioContainerView) {
         _audioContainerView = [[UIView alloc] initWithFrame:self.imageView.bounds];
-        _audioContainerView.backgroundColor = [UIColor colorWithWhite:0.000 alpha:self.maxAlpha];
+        _audioContainerView.backgroundColor = [UIColor colorWithWhite:0.000 alpha:self.maxAlpha / 1.5];
     }
     return _audioContainerView;
 }
 
-- (void)playFileData:(NSData *)data {
-    if (!_player) {
-        NSError *error = nil;
-        _player = [[AVAudioPlayer alloc] initWithData:data error:&error];
-        _player.meteringEnabled = YES;
-        [_player prepareToPlay];
-        _player.delegate = self;
-        if (error != nil) {
-            NSLog(@"Wrong init player:%@", error);
-        }
-        
-        error = nil;
-        
-        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-        [audioSession setCategory :AVAudioSessionCategoryPlayback error:&error];
-        
-        if(error){
-            NSLog(@"audioSession: %@ %d %@", [error domain], [error code], [[error userInfo] description]);
-        }
-    }
-    [self playAudio];
-}
-
-- (void)playFile:(NSString *)filePathString {
-    NSData *audioData = [[NSData alloc] initWithContentsOfFile:filePathString];
-    [self playFileData:audioData];
-}
-
-#pragma mark - Audio play 帮助方法
-
-- (void)resetTimer {
-    if (!_timer)
+- (void)resetAudioPlayer {
+    if (!_audioPlayer)
         return;
-    if ([_timer isValid]) {
-        [_timer invalidate];
-        _timer = nil;
-    }
+    
+    [_audioPlayer resetAudioPlayer];
+    self.audioPlayer = nil;
 }
 
 - (void)resetAudioHud {
@@ -406,40 +381,24 @@
     self.xh_audioHud = nil;
 }
 
-- (void)resetPlayer {
-    if (!_player)
+#pragma mark - XHAudioPlayer delegate
+
+- (void)XHAudioPlayer:(XHAudioPlayer *)audioPlayer didPlayFinish:(CGFloat)progress {
+    
+}
+
+- (void)XHAudioPlayer:(XHAudioPlayer *)audioPlayer onProgress:(CGFloat)progress {
+    if (!audioPlayer.audioPlayer)
         return;
     
-    [self stopPlay];
-    self.player = nil;
-}
-
-- (void)playAudio {
-    if (!self.player.isPlaying) {
-        [self.player play];
-        [self resetTimer];
-        _timer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(_updateMeters) userInfo:nil repeats:YES];
-    }
-}
-
-- (void)stopPlay {
-    if (_player.isPlaying) {
-        [_player stop];
-    }
-}
-
-- (void)_updateMeters {
-    if (!_player)
-        return;
+    [audioPlayer.audioPlayer updateMeters];
     
-    [_player updateMeters];
-    
-    float peakPower = [_player averagePowerForChannel:0];
+    float peakPower = [audioPlayer.audioPlayer averagePowerForChannel:0];
     double ALPHA = 0.015;
     double peakPowerForChannel = pow(10, (ALPHA * peakPower));
     
     [self.xh_audioHud setProgress:peakPowerForChannel];
-    [self setCurrentTime:_player.currentTime];
+    [self setCurrentTime:audioPlayer.audioPlayer.currentTime];
 }
 
 - (void)setCurrentTime:(NSTimeInterval)currentTime {

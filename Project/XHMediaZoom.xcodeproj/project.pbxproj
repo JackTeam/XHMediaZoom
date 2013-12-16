@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AB995C6A185F5FAD00CE1A7F /* XHPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AB995C69185F5FAD00CE1A7F /* XHPlayer.m */; };
 		AB995C6D185F612E00CE1A7F /* XHVideoPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB995C6C185F612E00CE1A7F /* XHVideoPlayView.m */; };
+		AB995C70185F6E2C00CE1A7F /* XHAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AB995C6F185F6E2C00CE1A7F /* XHAudioPlayer.m */; };
 		ABA2151B185BE0EA00D3E1C7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA2151A185BE0EA00D3E1C7 /* Foundation.framework */; };
 		ABA2151D185BE0EA00D3E1C7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA2151C185BE0EA00D3E1C7 /* CoreGraphics.framework */; };
 		ABA2151F185BE0EA00D3E1C7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABA2151E185BE0EA00D3E1C7 /* UIKit.framework */; };
@@ -51,6 +52,8 @@
 		AB995C69185F5FAD00CE1A7F /* XHPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHPlayer.m; sourceTree = "<group>"; };
 		AB995C6B185F612E00CE1A7F /* XHVideoPlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHVideoPlayView.h; sourceTree = "<group>"; };
 		AB995C6C185F612E00CE1A7F /* XHVideoPlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHVideoPlayView.m; sourceTree = "<group>"; };
+		AB995C6E185F6E2C00CE1A7F /* XHAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHAudioPlayer.h; sourceTree = "<group>"; };
+		AB995C6F185F6E2C00CE1A7F /* XHAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHAudioPlayer.m; sourceTree = "<group>"; };
 		ABA21517185BE0EA00D3E1C7 /* XHMediaZoom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XHMediaZoom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABA2151A185BE0EA00D3E1C7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		ABA2151C185BE0EA00D3E1C7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -201,6 +204,8 @@
 				AB995C69185F5FAD00CE1A7F /* XHPlayer.m */,
 				AB995C6B185F612E00CE1A7F /* XHVideoPlayView.h */,
 				AB995C6C185F612E00CE1A7F /* XHVideoPlayView.m */,
+				AB995C6E185F6E2C00CE1A7F /* XHAudioPlayer.h */,
+				AB995C6F185F6E2C00CE1A7F /* XHAudioPlayer.m */,
 			);
 			name = Source;
 			path = ../Source;
@@ -334,6 +339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABA21534185BE0EA00D3E1C7 /* ViewController.m in Sources */,
+				AB995C70185F6E2C00CE1A7F /* XHAudioPlayer.m in Sources */,
 				ABF299F3185F2C720099934F /* RootViewController.m in Sources */,
 				AB995C6A185F5FAD00CE1A7F /* XHPlayer.m in Sources */,
 				ABA21556185BE15C00D3E1C7 /* XHMediaZoom.m in Sources */,
