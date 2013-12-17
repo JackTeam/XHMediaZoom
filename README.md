@@ -46,9 +46,9 @@ pod 'XHMediaZoom'
 }
 ```
 
-```
-thank you[rFlex](https://github.com/rFlex)
-```
+### Thank you
+
+[rFlex](https://github.com/rFlex) provide VideoPlay 
 
 ## License
 
