@@ -12,9 +12,9 @@ English：Similar instagrm picture zoom animation, video and other resources Vie
 ##安装
 ##Installation
 
-中文:      [CocosPods](http://cocosPods.org)安装XHMediaRecorder的推荐方法,只是在Podfile添加以下行:
+中文:      [CocosPods](http://cocosPods.org)安装XHMediaZoom的推荐方法,只是在Podfile添加以下行:
 
-english:   [CocosPods](http://cocosPods.org) is the recommended methods of installation XHMediaRecorder, just add the following line to `Profile`:
+english:   [CocosPods](http://cocosPods.org) is the recommended methods of installation XHMediaZoom, just add the following line to `Profile`:
 
 ## Profile
 
