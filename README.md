@@ -65,6 +65,6 @@ English:   XHMediaZoom is acailable under the MIT license, see the LICENSE file 
 
 ## Instructions
          
-English：If you use the open source components in your project, please [Email us](mailto:xhzengAIB@gmail.com?subject=From%20GitHub%20XHMediaZoom) to tell us the name of your application, otherwise the consequence is proud.
+English：If you use the open source components in your project, please [Email us](mailto:xhzengAIB@gmail.com?subject=From%20GitHub%20XHMediaZoom) to tell us the name of your application.
 
 
